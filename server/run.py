@@ -2,6 +2,11 @@ import time
 from urllib import request
 from flask import Flask
 from flask_cors import CORS
+import loadData
+
+#First load of possible trials to do
+trialsList = loadData.load_init()
+print(trialsList[0].toString())
 
 app = Flask(__name__,  static_url_path='')
 CORS(app)
