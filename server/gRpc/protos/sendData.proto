@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "server.gRpc.senddata";
+option java_outer_classname = "SendData";
+option objc_class_prefix = "SD";
+
+
+package senddata;
+
+// Interface exported by the server.
+service SendData {
+  rpc GetDeviceNumber(stream Device) returns (stream DeviceNumber) {}
+
+  rpc GetRobotPointingDevice(stream Device) returns (stream Device) {}
+
+  rpc GetFoo(Device) returns (DeviceNumber) {}
+
+  rpc GetFoo2(stream Device) returns (Device) {}
+  
+  rpc GetFoo3(Device) returns (stream DeviceNumber) {}
+
+}
+
+
+message DeviceNumber {
+  int32 number_displayed = 1;
+}
+
+message Device {
+  int32 device_id=1;
+}

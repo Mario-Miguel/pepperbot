@@ -1,10 +1,9 @@
-import time
 from urllib import request
 from flask import Flask
 from flask_cors import CORS
 import loadData
 
-#First load of possible trials to do
+#Load of possible trials to do
 trialsList = loadData.load_init()
 print(trialsList[0].toString())
 
@@ -13,9 +12,6 @@ CORS(app)
 
 devicesState = {1:False, 2:False, 3:False}
 
-@app.route("/time")
-def main_page():
-    return {'time': time.time()}
 
 @app.route('/')
 def home():
@@ -24,12 +20,21 @@ def home():
 @app.route("/device/<int:id>", methods=['PUT'])
 def updateDeviceState(id:int):
     devicesState[id] = not devicesState[id]
+    if(areDevicesReady()):
+        startGrpcConnection()
     return {'state':devicesState[id]}
+
 
 @app.route("/device/<int:id>", methods=['GET'])
 def getDeviceState(id:int):
     return {'state':devicesState[id]}
 
+
+def areDevicesReady():
+    return devicesState[0] and devicesState[1] and devicesState[2]
+
+def startGrpcConnection():
+    return
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
